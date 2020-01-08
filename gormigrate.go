@@ -196,7 +196,7 @@ func (g *Gormigrate) migrate(migrationID string) error {
 
 	for _, migration := range g.migrations {
 		if err := g.runMigration(migration); err != nil {
-			return err
+			return fmt.Errorf("Error running migration %s: %s", migration.ID, err)
 		}
 		if migrationID != "" && migration.ID == migrationID {
 			break
@@ -257,7 +257,7 @@ func (g *Gormigrate) RollbackLast() error {
 	}
 
 	if err := g.rollbackMigration(lastRunMigration); err != nil {
-		return err
+		return fmt.Errorf("Error rolling back migration %s: %s", lastRunMigration.ID, err)
 	}
 	return g.commit()
 }
@@ -287,7 +287,7 @@ func (g *Gormigrate) RollbackTo(migrationID string) error {
 		}
 		if migrationRan {
 			if err := g.rollbackMigration(migration); err != nil {
-				return err
+				return fmt.Errorf("Error rolling back migration %s: %s", migration.ID, err)
 			}
 		}
 	}
@@ -316,7 +316,7 @@ func (g *Gormigrate) RollbackMigration(m *Migration) error {
 	defer g.rollback()
 
 	if err := g.rollbackMigration(m); err != nil {
-		return err
+		return fmt.Errorf("Error rolling back migration %s: %s", m.ID, err)
 	}
 	return g.commit()
 }
