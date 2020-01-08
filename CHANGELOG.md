@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.1 - 2020-01-08
+
+- Improved error handling
+
 ## v1.6.0 - 2019-07-07
 
 - Add option to return an error if the database have unknown migrations
