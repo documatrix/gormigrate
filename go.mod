@@ -17,3 +17,5 @@ require (
 	golang.org/x/crypto v0.0.0-20181112202954-3d3f9f413869 // indirect
 	google.golang.org/appengine v1.3.0 // indirect
 )
+
+replace github.com/jinzhu/gorm => github.com/documatrix/gorm v0.0.0-20201024082524-cdcb8e710d30

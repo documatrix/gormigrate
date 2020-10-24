@@ -330,7 +330,7 @@ func (g *Gormigrate) rollbackMigration(m *Migration) error {
 		return err
 	}
 
-	sql := fmt.Sprintf("DELETE FROM %s WHERE %s = ?", g.options.TableName, g.options.IDColumnName)
+	sql := fmt.Sprintf("DELETE FROM %s WHERE %s = ?", g.tx.Dialect().Quote(g.options.TableName), g.tx.Dialect().Quote(g.options.IDColumnName))
 	return g.tx.Exec(sql, m.ID).Error
 }
 
@@ -377,7 +377,7 @@ func (g *Gormigrate) createMigrationTableIfNotExists() error {
 		return nil
 	}
 
-	sql := fmt.Sprintf("CREATE TABLE %s (%s VARCHAR(%d) PRIMARY KEY)", g.options.TableName, g.options.IDColumnName, g.options.IDColumnSize)
+	sql := fmt.Sprintf("CREATE TABLE %s (%s VARCHAR(%d) PRIMARY KEY)", g.tx.Dialect().Quote(g.options.TableName), g.tx.Dialect().Quote(g.options.IDColumnName), g.options.IDColumnSize)
 	return g.tx.Exec(sql).Error
 }
 
@@ -439,7 +439,7 @@ func (g *Gormigrate) unknownMigrationsHaveHappened() (bool, error) {
 }
 
 func (g *Gormigrate) insertMigration(id string) error {
-	sql := fmt.Sprintf("INSERT INTO %s (%s) VALUES (?)", g.options.TableName, g.options.IDColumnName)
+	sql := fmt.Sprintf("INSERT INTO %s (%s) VALUES (?)", g.tx.Dialect().Quote(g.options.TableName), g.tx.Dialect().Quote(g.options.IDColumnName))
 	return g.tx.Exec(sql, id).Error
 }
 
