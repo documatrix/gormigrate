@@ -384,8 +384,8 @@ func (g *Gormigrate) createMigrationTableIfNotExists() error {
 func (g *Gormigrate) migrationRan(m *Migration) (bool, error) {
 	var count int
 	err := g.tx.
-		Table(g.options.TableName).
-		Where(fmt.Sprintf("%s = ?", g.options.IDColumnName), m.ID).
+		Table(g.tx.Dialect().Quote(g.options.TableName)).
+		Where(fmt.Sprintf("%s = ?", g.tx.Dialect().Quote(g.options.IDColumnName)), m.ID).
 		Count(&count).
 		Error
 	return count > 0, err
@@ -405,14 +405,14 @@ func (g *Gormigrate) canInitializeSchema() (bool, error) {
 	// If the ID doesn't exist, we also want the list of migrations to be empty
 	var count int
 	err = g.tx.
-		Table(g.options.TableName).
+		Table(g.tx.Dialect().Quote(g.options.TableName)).
 		Count(&count).
 		Error
 	return count == 0, err
 }
 
 func (g *Gormigrate) unknownMigrationsHaveHappened() (bool, error) {
-	sql := fmt.Sprintf("SELECT %s FROM %s", g.options.IDColumnName, g.options.TableName)
+	sql := fmt.Sprintf("SELECT %s FROM %s", g.tx.Dialect().Quote(g.options.IDColumnName), g.tx.Dialect().Quote(g.options.TableName))
 	rows, err := g.tx.Raw(sql).Rows()
 	if err != nil {
 		return false, err
