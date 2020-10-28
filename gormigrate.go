@@ -384,7 +384,7 @@ func (g *Gormigrate) createMigrationTableIfNotExists() error {
 func (g *Gormigrate) migrationRan(m *Migration) (bool, error) {
 	var count int
 	err := g.tx.
-		Table(g.tx.Dialect().Quote(g.options.TableName)).
+		Table(g.options.TableName).
 		Where(fmt.Sprintf("%s = ?", g.tx.Dialect().Quote(g.options.IDColumnName)), m.ID).
 		Count(&count).
 		Error

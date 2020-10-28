@@ -1,5 +1,7 @@
 module gopkg.in/gormigrate.v1
 
+go 1.15
+
 require (
 	cloud.google.com/go v0.33.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20181014144952-4e0d7dc8888f // indirect
@@ -18,4 +20,4 @@ require (
 	google.golang.org/appengine v1.3.0 // indirect
 )
 
-replace github.com/jinzhu/gorm => github.com/documatrix/gorm v0.0.0-20201024082524-cdcb8e710d30
+replace github.com/jinzhu/gorm => github.com/documatrix/gorm v0.0.0-20201028083000-3d2460c7a4b1
